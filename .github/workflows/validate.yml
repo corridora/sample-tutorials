@@ -1,0 +1,19 @@
+name: Validate sample
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - uses: dtolnay/rust-toolchain@1.86.0
+        with: {targets: wasm32-wasip1}
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: cargo test --locked
+      - run: cargo build --locked --bin local
+      - run: cargo check --locked --features compute --bin sample-tutorials --target wasm32-wasip1
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser

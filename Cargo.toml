@@ -1,0 +1,43 @@
+[package]
+name = "sample-tutorials"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.86"
+
+[lib]
+name = "tutorials"
+path = "src/lib.rs"
+
+[[bin]]
+name = "local"
+path = "src/bin/local.rs"
+
+[[bin]]
+name = "sample-tutorials"
+path = "src/bin/compute.rs"
+required-features = ["compute"]
+
+[features]
+compute = ["dep:fastly", "dep:fastly-opentelemetry-exporter"]
+
+[dependencies]
+opentelemetry = { version = "=0.31.0", default-features = false, features = ["trace"] }
+opentelemetry_sdk = { version = "=0.31.0", default-features = false, features = ["trace"] }
+opentelemetry-proto = { version = "=0.31.0", default-features = false, features = ["gen-tonic-messages", "trace", "with-serde"] }
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = "=1.0.145"
+url = "=2.5.7"
+fastly = { version = "=0.11.13", optional = true }
+fastly-opentelemetry-exporter = { version = "=0.2.0", optional = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tiny_http = "=0.12.0"
+ureq = { version = "=2.12.1", features = ["json"] }
+
+[patch.crates-io]
+fastly-opentelemetry-exporter = { path = "vendor/fastly-opentelemetry-exporter-0.2.0" }
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = "debuginfo"

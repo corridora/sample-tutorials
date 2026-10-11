@@ -1,0 +1,20 @@
+manifest_version = 3
+name = "sample-tutorials"
+description = "Corridora Astro and Rust edge tutorial sample"
+language = "rust"
+[scripts]
+build = "cargo build --locked --release --target wasm32-wasip1 --features compute --bin sample-tutorials"
+[local_server]
+[local_server.backends.otel-http]
+url = "http://127.0.0.1:4318"
+[local_server.backends.portfolio-origin]
+url = "http://127.0.0.1:4206"
+[local_server.config_stores.tutorial-config]
+file = ".sample/fastly-config.json"
+format = "json"
+[local_server.kv_stores.tutorial-progress]
+file = ".sample/fastly-kv.json"
+format = "json"
+[local_server.secret_stores.tutorial-secrets]
+file = ".sample/fastly-secrets.json"
+format = "json"

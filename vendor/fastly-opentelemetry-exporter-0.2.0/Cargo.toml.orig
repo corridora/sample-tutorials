@@ -1,0 +1,24 @@
+[package]
+name = "fastly-opentelemetry-exporter"
+description = "OpenTelemetry span exporter for Fastly Compute"
+license = "MIT"
+keywords = ["opentelemetry", "fastly", "tracing", "observability"]
+categories = ["development-tools::debugging", "web-programming"]
+readme = "README.md"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+fastly.workspace = true
+futures-util = "0.3.31"
+opentelemetry.workspace = true
+opentelemetry-proto = { version = "0.31.0", default-features = false, features = [ "gen-tonic-messages", "trace", "with-serde" ] }
+opentelemetry-semantic-conventions = { version = "0.31.0", features = ["semconv_experimental"] }
+opentelemetry_sdk.workspace = true
+serde_json = "1.0.141"
+thiserror = "2.0.12"
+tracing.workspace = true
+tracing-opentelemetry.workspace = true

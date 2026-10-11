@@ -1,0 +1,19 @@
+{
+  "name": "@corridora/sample-tutorials",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "astro build --root web",
+    "test": "python3 -m unittest discover -s tests -p 'test_*.py' && cargo test --locked",
+    "test:browser": "playwright test",
+    "validate": "npm run build && npm test && npm run test:browser"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "1.9.0",
+    "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
+  }
+}

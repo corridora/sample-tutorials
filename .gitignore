@@ -1,0 +1,13 @@
+.env
+.sample/
+target/
+node_modules/
+web/dist/
+web/.astro/
+web/src/generated/
+test-results/
+playwright-report/
+__pycache__/
+pkg/
+.tools/
+.fastly/

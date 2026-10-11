@@ -1,0 +1,26 @@
+name: Daily tutorial incident and watchdog
+on:
+  schedule:
+    - cron: '42 14 * * *'
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+permissions: {contents: read}
+concurrency: {group: tutorial-incident, cancel-in-progress: false}
+jobs:
+  journey:
+    if: vars.ENABLE_SYNTHETICS == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SAMPLE_URL: ${{ secrets.SAMPLE_URL }}
+      DEMO_CONTROL_TOKEN: ${{ secrets.DEMO_CONTROL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/daily.mjs --watchdog
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: incident-evidence, path: test-results, retention-days: 2}

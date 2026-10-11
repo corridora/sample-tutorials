@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+"""Interactive setup. Python stdlib only; --help requires no dependencies."""
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent/'scripts'))
+from setup_app import main
+main()
